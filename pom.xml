@@ -9,7 +9,7 @@
     <description>n/a</description>
     <version>1.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <url>http://www.evosuite.org/</url>
+<!--     <url>http://www.evosuite.org/</url> -->
     <inceptionYear>2010</inceptionYear>
 
     <licenses>
@@ -414,21 +414,21 @@
 
 
     <repositories>
-        <repository>
-            <releases>
-                <enabled>true</enabled>
-                <checksumPolicy>warn</checksumPolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-                <checksumPolicy>fail</checksumPolicy>
-            </snapshots>
-            <id>EvoSuite</id>
-            <name>EvoSuite Repository</name>
-            <url>http://www.evosuite.org/m2/</url>
-            <layout>default</layout>
-        </repository>
+<!--         <repository> -->
+<!--             <releases> -->
+<!--                 <enabled>true</enabled> -->
+<!--                 <checksumPolicy>warn</checksumPolicy> -->
+<!--             </releases> -->
+<!--             <snapshots> -->
+<!--                 <enabled>true</enabled> -->
+<!--                 <updatePolicy>never</updatePolicy> -->
+<!--                 <checksumPolicy>fail</checksumPolicy> -->
+<!--             </snapshots> -->
+<!--             <id>EvoSuite</id> -->
+<!--             <name>EvoSuite Repository</name> -->
+<!--             <url>http://www.evosuite.org/m2/</url> -->
+<!--             <layout>default</layout> -->
+<!--         </repository> -->
 
         <!-- <repository> <id>choco.repo</id> <url>http://www.emn.fr/z-info/choco-solver/mvn/repository/</url>
             </repository> -->

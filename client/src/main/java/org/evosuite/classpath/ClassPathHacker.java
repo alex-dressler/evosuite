@@ -24,6 +24,7 @@ package org.evosuite.classpath;
 
 import org.evosuite.Properties;
 import org.evosuite.runtime.agent.ToolsJarLocator;
+import org.evosuite.utils.LoggingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -87,6 +88,18 @@ public class ClassPathHacker {
 	public static void addFile(File f) throws IOException {
 		//addURL(f.toURL());
 		addURL(f.toURI().toURL());
+		
+		//if it's a directory, check for jar files
+		if (f.isDirectory()) {
+			File[] jars = f.listFiles((File dir, String name) -> name.matches(".*\\.jar"));
+			if (jars.length>0) {
+				LoggingUtils.getEvoLogger().info("Found jars in {} *****************************", f.toString());
+			}
+			for (File jar : jars) {
+				LoggingUtils.getEvoLogger().info(jar.getName());
+				addURL(jar.toURI().toURL());
+			}
+		}
 	}//end method
 
 	/**
@@ -104,11 +117,10 @@ public class ClassPathHacker {
 		try {
 			Method method = sysclass.getDeclaredMethod("addURL", parameters);
 			method.setAccessible(true);
-			method.invoke(sysloader, new Object[] { u });
+			method.invoke(sysloader, new Object[] { u });	
 		} catch (Throwable t) {
 			t.printStackTrace();
 			throw new IOException("Error, could not add URL to system classloader");
 		}//end try catch
-
 	}//end method
 }

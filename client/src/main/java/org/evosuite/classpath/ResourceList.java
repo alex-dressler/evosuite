@@ -37,6 +37,7 @@ import java.util.jar.JarFile;
 
 import org.evosuite.Properties;
 import org.evosuite.TestGenerationContext;
+import org.evosuite.utils.LoggingUtils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
@@ -537,6 +538,20 @@ public class ResourceList {
 		}
 
 		if (file.isDirectory()) {
+			//First check for any jar files at the top level
+			File[] jars = file.listFiles((File dir, String name) -> name.matches(".*\\.jar"));
+			if (jars.length>0) {
+				LoggingUtils.getEvoLogger().info("Found jars in {} *****************************", file.toString());
+			}
+			for (File jar : jars) {
+				if(getCache().mapCPtoClasses.containsKey(jar.getAbsolutePath())){
+					continue;
+				}
+				LoggingUtils.getEvoLogger().info(jar.getName());
+				getCache().mapCPtoClasses.put(jar.getAbsolutePath(), new LinkedHashSet<String>());
+				scanJar(jar.getAbsolutePath());
+			}
+			
 			scanDirectory(file,classPathElement);
 		} else if (file.getName().endsWith(".jar")) {
 			scanJar(classPathElement);
@@ -562,7 +577,7 @@ public class ResourceList {
 
 		String prefix =  directory.getAbsolutePath().replace(classPathFolder + File.separator,"");
 		prefix = prefix.replace(File.separatorChar, '.');
-
+		
 		File[] fileList = directory.listFiles();
 		for (final File file : fileList) {
 			if (file.isDirectory()) {
